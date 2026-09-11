@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: footballymba-api-java
+  
+  # Настройки подключения к БД PostgreSQL
+  datasource:
+    url: ${SPRING_DB_URL:jdbc:postgresql://localhost:5432/footballamba_db}
+    username: ${SPRING_DB_USER:george}
+    password: ${SPRING_DB_PASSWORD:}
+    driver-class-name: org.postgresql.Driver
+
+  # Настройки JPA / Hibernate
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate # Проверяем схему, так как используем Flyway
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Автоматический накат SQL-миграций
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 1
+
+# Кастомные настройки приложения
+telegram:
+  bot:
+    username: ${TELEGRAM_BOT_USERNAME:footballymba_bot}
+    internal-secret: ${BOT_INTERNAL_SECRET:4f9d2a8b3c8f5e7a1d2c3b4a5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f}
+
+# Настройки безопасности (понадобится для JWT)
+app:
+  security:
+    jwt:
+      secret: ${JWT_SECRET_KEY:9aFAF8D3838D64F1F54B3E2F49F7D8E1012C14F23D6171D67E824F88D93E4521} # Генерируйте сложный ключ в проде
+      expiration-ms: ${JWT_EXPIRATION_MS:1800000} # 24 часа
+    cookie-secure: ${COOKIE_SECURE:false}
+    refresh-expiration-days: ${REFRESH_EXPIRATION_DAYS:7}
+  frontend:
+    url: ${FRONTEND_BASE_URL:}
+
+  fantasy-points:
+    play: 20
+    win: 20
+    draw: 10
+    tiers:
+      S:
+      goals: 25
+      assists: 20
+      isCleanSheet: 10
+    A:
+      goals: 30
+      assists: 20
+      isCleanSheet: 15
+    B:
+      goals: 40
+      assists: 25
+      isCleanSheet: 20
+    C:
+      goals: 50
+      assists: 30
+      isCleanSheet: 20
